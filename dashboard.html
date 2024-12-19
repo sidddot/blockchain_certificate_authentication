@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="./css/loader.css">
+  <link href="./css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" crossorigin="anonymous" />
+  <link href="./css/aos.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <span class="home_text text-info">SECURE</span> AUTHENTICATION
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">Admin</a></li>
+        </ul>
+      </div>
+      <div class="d-flex">
+        <!-- <button
+          id="loginButton"
+          onclick="connect()"
+          class="btn main-button"
+        >
+          Login
+        </button> -->
+        <button
+          id="logoutButton"
+          onclick="disconnect()"
+          class="btn main-button"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+<div  style="position:static; margin-left: 40%;">
+  <h1 id="welcomeMessage"></h1>
+</div>  
+  <!-- Main Content Section -->
+  <div class="containeradmin">
+    
+    <!-- Left Section -->
+    <div class="verification-section">
+      <div class="card2">
+        <div class="tools2">
+          <div class="circle2">
+            <span class="red2 box2"></span>
+          </div>
+          <div class="circle2">
+            <span class="yellow2 box2"></span>
+          </div>
+          <div class="circle2">
+            <span class="green2 box2"></span>
+          </div>
+        </div>
+
+        <div class="card__content2">
+          <h4>Please review the requests carefully and verify the documents to ensure all information is accurate and complete before proceeding.</h4>
+          <button class="verification-btn" onclick="window.location.href='adminVerify.html'">Do Verification</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section -->
+    <div class="table-section">
+      <div class="card1">
+        <div class="card__title1">Manage Admins for Institution</div>
+        <div class="card__data1">
+          <div class="card__right1">
+            <div class="item1">Username</div>
+            <div class="item1">Admin1</div>
+            <div class="item1">Admin2</div>
+          </div>
+          <div class="card__left1">
+            <div class="item1">Blockchain Address</div>
+            <div class="item1">0x12345abcde</div>
+            <div class="item1">0x67890fghij</div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <button class="add-admin-btn" onclick="openAddAdminModal()">Add Admin</button>
+    </div>
+  </div>
+
+  <!-- Add Admin Modal (Hidden by Default) -->
+  <div id="add-admin-modal" class="modal">
+    <div class="modal-content">
+      <h3>Add Admin</h3>
+      <form id="add-admin-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="address">Blockchain Address:</label>
+        <input type="text" id="address" name="address" required>
+        <button type="submit" class="submit-btn">Add</button>
+        <button type="button" class="close-btn" onclick="closeAddAdminModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Modal functions
+    function openAddAdminModal() {
+      document.getElementById('add-admin-modal').style.display = 'block';
+    }
+
+    function closeAddAdminModal() {
+      document.getElementById('add-admin-modal').style.display = 'none';
+    }
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const username = sessionStorage.getItem('username');
+      const userType = sessionStorage.getItem('userType');
+
+      if (!username || !userType) {
+        alert('Session expired. Please login again.');
+        window.location.href = 'index.html';
+      }
+
+      document.getElementById('welcomeMessage').textContent = `Welcome ${username}`;
+    });
+  </script>
+  <script>
+      function disconnect() {
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    }
+    window.addEventListener('popstate', () => {
+    if (!sessionStorage.getItem('username') || !sessionStorage.getItem('userType')) {
+      alert('Session expired. Please login again.');
+      window.location.href = 'index.html';
+    }
+    });
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "blockchain_certificate_authentication",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aos": "^2.3.4",
+    "bootstrap": "^5.3.3",
+    "ipfs-core": "^0.18.1",
+    "qrcode.js": "^0.0.1",
+    "web3": "^4.16.0"
+  }
+}

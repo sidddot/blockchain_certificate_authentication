@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/loader.css" />
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
+    <script src="node_modules/web3/dist/web3.min.js"></script>
+    <script src="js/App.js"></script>
+    <script src="js/qrcode.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <link href="./css/aos.min.css" rel="stylesheet" />
+    <link rel="icon" href="./assets/images/icon.png" />
+    <title>Student Upload</title>
+    <style>
+      .status-approved {
+        color: green;
+      }
+      .status-not-approved {
+        color: red;
+      }
+      .action-btn {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">
+          <span class="home_text">SECURE</span> AUTHENTICATION
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="upload.html">Upload</a>
+            </li>
+          </ul>
+          <div class="d-flex">
+            <!-- <button id="loginButton" onclick="connect()" class="btn main-button">
+              Login
+            </button> -->
+            <button
+              id="logoutButton"
+              onclick="disconnect()"
+              class="btn main-button"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+      <h2 class="text-center">Student Document Upload</h2>
+      <p class="text-center text-muted">
+        Please upload your document. The file will be sent to the institution
+        for approval. Once approved, the status will be updated here.
+      </p>
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+          <!-- File Upload -->
+          <label for="fileUpload" class="form-label">Upload Your File:</label>
+          <input
+            type="file"
+            id="fileUpload"
+            class="form-control mb-3"
+            accept=".pdf, image/*"
+          />
+          <!-- Send Request Button -->
+          <button class="btn btn-primary w-100" onclick="sendRequest()">
+            Send Request
+          </button>
+        </div>
+      </div>
+
+      <!-- Uploaded Documents Section -->
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+          <h4 class="text-center">Uploaded Documents</h4>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Document Name</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="uploadedFilesTable">
+              <!-- File rows will be dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-dark mt-5">
+      <p class="text-center text-muted">
+        Secure Authentication © 2024
+      </p>
+    </footer>
+
+    <script>
+      const uploadedFiles = [];
+
+      // Function to render files
+      function renderFiles() {
+        const tableBody = document.getElementById("uploadedFilesTable");
+        tableBody.innerHTML = ""; // Clear table
+        uploadedFiles.forEach((file, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${file.name}</td>
+            <td class="${file.approved ? "status-approved" : "status-not-approved"}">
+              ${file.approved ? "Approved" : "Not Approved"}
+            </td>
+            <td>
+              <button class="btn btn-danger action-btn" onclick="deleteFile(${index})">
+                Delete
+              </button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+
+      // Function to add a file
+      function sendRequest() {
+        const fileInput = document.getElementById("fileUpload");
+        if (fileInput.files.length === 0) {
+          alert("Please select a file before sending the request.");
+        } else {
+          const fileName = fileInput.files[0].name;
+          uploadedFiles.push({ name: fileName, approved: false });
+          fileInput.value = ""; // Clear the input
+          renderFiles();
+          alert("Your request has been sent successfully!");
+        }
+      }
+
+      // Function to delete a file
+      function deleteFile(index) {
+        if (confirm(`Are you sure you want to delete ${uploadedFiles[index].name}?`)) {
+          uploadedFiles.splice(index, 1);
+          renderFiles();
+        }
+      }
+    </script>
+  </body>
+</html>
